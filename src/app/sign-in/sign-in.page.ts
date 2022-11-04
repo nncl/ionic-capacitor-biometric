@@ -22,8 +22,13 @@ export class SignInPage implements OnInit {
   }
 
   async checkCredentialsAvailability() {
-    console.log('checkCredentialsAvailability'); // FIXME
     try {
+      const { isAvailable } = await NativeBiometric.isAvailable();
+
+      if (!isAvailable) {
+        return;
+      }
+
       const result = await NativeBiometric.getCredentials({
         server: 'www.example.com',
       });
